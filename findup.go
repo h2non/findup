@@ -1,4 +1,5 @@
-import (
-	"fs"
-)
+package findup
 
+import (
+	"path/filepath"
+)
