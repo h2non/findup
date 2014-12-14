@@ -1,12 +1,29 @@
 package findup
 
 import (
+	"errors"
 	"os"
+	"path"
 	"path/filepath"
 )
 
 func Find(filename string) (string, error) {
-	matches, err := filepath.Find(os.Getcwd() + filename)
-	//fmt.Printf(matches)
-	return matches, err
+	cwd, _ := os.Getwd()
+	return lookupFile(cwd, filename)
+}
+
+func lookupFile(basepath string, filename string) (string, error) {
+	matches, err := filepath.Glob(path.Join(basepath, filename))
+	if len(matches) == 0 {
+		return lookupInNearestDir(basepath, filename)
+	}
+	return matches[0], err
+}
+
+func lookupInNearestDir(basepath string, filename string) (string, error) {
+	if basepath == "/" {
+		return "", errors.New("file not found")
+	}
+	nearest := path.Clean(path.Join(path.Dir(basepath), ".."))
+	return lookupFile(nearest, filename)
 }

@@ -1,8 +1,6 @@
 # findup.go
 
-Find the first file matching in a given directory or the nearest ancestor directory up to root
-
-> Work in progress!
+A [Go](http://golang.org) tiny package to **find the first** file matching in a given directory or the nearest ancestor directory up to root, with additional Glob pattern support
 
 ## Installation
 
@@ -20,7 +18,20 @@ import "github.com/h2non/findup"
 
 Find a file
 ```go
-path, err := findup('config.json')
+path, err := findup('findup.go')
+fmt.Println(path) // -> /full/path/to/findup.go
+```
+
+Find a file using a Glob pattern
+```go
+path, err := findup('findup.*')
+fmt.Println(path) // -> /full/path/to/findup.go
+```
+
+## Development
+
+```bash
+$ go test
 ```
 
 ## License 
