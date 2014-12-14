@@ -19,13 +19,13 @@ import "github.com/h2non/findup"
 
 Find a file
 ```go
-path, err := findup('findup.go')
+path, err := findup.Find('findup.go')
 fmt.Println(path) // -> /full/path/to/findup.go
 ```
 
 Find a file using a Glob pattern
 ```go
-path, err := findup('findup.*')
+path, err := findup.Find('findup.*')
 fmt.Println(path) // -> /full/path/to/findup.go
 ```
 
