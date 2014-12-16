@@ -29,7 +29,7 @@ path, err := findup.Find("findup.*")
 fmt.Println(path) // -> /full/path/to/findup.go
 ```
 
-See also [GoDoc](https://godoc.org/github.com/h2non/findup)
+Detailed API documentation is available via [GoDoc](https://godoc.org/github.com/h2non/findup)
 
 ## Development
 
