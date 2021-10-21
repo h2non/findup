@@ -41,11 +41,28 @@ func TestFindFileInNearestDirectories(t *testing.T) {
 
 	path, _ := Find("findup.go")
 	if path != getFullPath("findup.go") {
-		t.Fatalf("file was found")
+		t.Fatalf("file was not found")
 	}
 
 	os.RemoveAll(".tmp")
 	os.Chdir("../../../")
+}
+
+func TestFindFileInParentDirectoriesEnsureNoSkipping(t *testing.T) {
+	cwd, _ := os.Getwd()
+	goodPath := getFullPath("findup.go")
+
+	tmpDir := ".tmp/a/b"
+	os.MkdirAll(tmpDir, 0666)
+	os.Chdir(tmpDir)
+
+	path, _ := Find("findup.go")
+	if path != goodPath {
+		t.Fatalf("file was not found")
+	}
+
+	os.RemoveAll(".tmp")
+	os.Chdir(cwd)
 }
 
 func getFullPath(filename string) string {
