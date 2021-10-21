@@ -24,6 +24,6 @@ func lookupInNearestDir(basepath string, filename string) (string, error) {
 	if basepath == "/" {
 		return "", errors.New("file not found")
 	}
-	nearest := path.Clean(path.Join(path.Dir(basepath), ".."))
+	nearest := path.Dir(basepath)
 	return lookupFile(nearest, filename)
 }
