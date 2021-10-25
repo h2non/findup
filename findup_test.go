@@ -3,6 +3,7 @@ package findup
 import (
 	"os"
 	"path"
+	"path/filepath"
 	"testing"
 )
 
@@ -35,17 +36,24 @@ func TestCannotFindGlobFileInTheCurrentDirectory(t *testing.T) {
 }
 
 func TestFindFileInNearestDirectories(t *testing.T) {
-	tmpDir := ".tmp/a/b/c"
-	os.MkdirAll(tmpDir, 0666)
-	os.Chdir(tmpDir)
+	testFindFilePath(t, ".tmp/a")
+	testFindFilePath(t, ".tmp/a/b")
+	testFindFilePath(t, ".tmp/a/b/c")
+}
 
-	path, _ := Find("findup.go")
-	if path != getFullPath("findup.go") {
-		t.Fatalf("file was found")
+func testFindFilePath(t *testing.T, dirPath string) {
+	cwd, _ := os.Getwd()
+	goodPath := getFullPath("findup.go")
+
+	tmpDir := filepath.Join(cwd, dirPath)
+	os.MkdirAll(tmpDir, 0666)
+
+	path, _ := lookupFile(tmpDir, "findup.go")
+	if path != goodPath {
+		t.Fatalf("file was not found")
 	}
 
 	os.RemoveAll(".tmp")
-	os.Chdir("../../../")
 }
 
 func getFullPath(filename string) string {
